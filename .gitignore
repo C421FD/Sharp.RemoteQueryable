@@ -1,0 +1,22 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+*.suo
+/.vs
+/src/.vs
+/src/ChangeTracking/obj
+/src/ChangeTracking.Tests/obj
+/src/RemoteQueryable/obj
+/src/RemoteQueryable.Tests/obj
+/bin/Debug
+/bin/Release/Test
+/src/bin/Debug
+/src/Sharp.RemoteQueryable.Samples.WcfServer/obj/Debug
+/src/Sharp.RemoteQueryable.Samples.WcfServer/bin/Debug
+/src/Sharp.RemoteQueryable.Samples.WcfClient/obj/Debug
+/src/Sharp.RemoteQueryable.Samples.WcfClient/bin/Debug
+/src/Sharp.RemoteQueryable.Samples.DataContract/obj/Debug
+/src/Sharp.RemoteQueryable.Samples.DataContract/bin/Debug
+/src/Sharp.RemoteQueryable.Model/obj/Debug
+/src/Sharp.RemoteQueryable.Model/bin/Debug

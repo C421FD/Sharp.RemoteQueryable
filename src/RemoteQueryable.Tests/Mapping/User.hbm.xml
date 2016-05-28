@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Sharp.RemoteQueryable.Tests" namespace="Sharp.RemoteQueryable.Tests.Model">
+  <class name="User" table="test_user" lazy="false">
+    <id name="Id" column="id" />
+    <property name="Name" column="name" />
+    <property name="Login" column="login" />
+    <property name="Password" column="password" />
+    <property name="IsAdministrator" column="is_administrator" />
+  </class>
+</hibernate-mapping>
