@@ -15,7 +15,7 @@ namespace Sharp.RemoteQueryable
     /// <summary>
     /// 
     /// </summary>
-    public MethodCallExpressionNode SerializedExpression { get; set; }
+    public ExpressionNode SerializedExpression { get; set; }
 
     /// <summary>
     /// 
@@ -35,7 +35,7 @@ namespace Sharp.RemoteQueryable
     /// <returns></returns>
     public static InternalQuery CreateMessage(Expression expression, Type type)
     {
-      var serializedExpression = expression.ToExpressionNode() as MethodCallExpressionNode;
+      var serializedExpression = expression.ToExpressionNode();
       return new InternalQuery(serializedExpression, type.FullName, type.Assembly.FullName);
     }
 
@@ -45,7 +45,7 @@ namespace Sharp.RemoteQueryable
     /// <param name="serializedExpression"></param>
     /// <param name="requestedTypeName"></param>
     /// <param name="requestedTypeAssemblyName"></param>
-    private InternalQuery(MethodCallExpressionNode serializedExpression, string requestedTypeName, string requestedTypeAssemblyName)
+    private InternalQuery(ExpressionNode serializedExpression, string requestedTypeName, string requestedTypeAssemblyName)
     {
       this.SerializedExpression = serializedExpression;
       this.RequestedTypeName = requestedTypeName;

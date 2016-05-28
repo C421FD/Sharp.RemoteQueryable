@@ -49,6 +49,9 @@ namespace Sharp.RemoteQueryable.Server
       nhibernateAssembly = AppDomain.CurrentDomain.GetAssemblies()
         .FirstOrDefault(asm => asm.FullName.Contains("NHibernate")) ?? Assembly.Load("NHibernate");
 
+      if (nhibernateAssembly == null)
+        throw new InvalidOperationException("Caller invoking server-side types, but the NHibernate.dll not found in current application domain");
+
       SessionType = nhibernateAssembly.GetTypes()
         .Single(p => p.FullName.Equals("NHibernate.ISession", StringComparison.OrdinalIgnoreCase));
 

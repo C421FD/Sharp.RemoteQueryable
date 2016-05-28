@@ -19,7 +19,7 @@ namespace Sharp.RemoteQueryable.Server
     public Expression Modify(Expression sourceExpression, IQueryable newSource)
     {
       var methodCallExpression = sourceExpression as MethodCallExpression;
-      if (methodCallExpression != null && GetNextQueryAfterPostQuery(methodCallExpression) == null)
+      if (methodCallExpression == null || GetNextQueryAfterPostQuery(methodCallExpression) == null)
         return null;
 
       queryableSource = newSource;

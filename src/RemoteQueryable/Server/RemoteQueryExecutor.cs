@@ -78,11 +78,13 @@ namespace Sharp.RemoteQueryable.Server
 
     private static InternalQuery DeserializeInternalQuery(string serializedInternalQuery)
     {
-      var internalRemoteQuery = JsonConvert.DeserializeObject<InternalQuery>(serializedInternalQuery, new JsonSerializerSettings
-      {
-        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-        TypeNameHandling = TypeNameHandling.All
-      });
+      var internalRemoteQuery = JsonConvert
+        .DeserializeObject<InternalQuery>(serializedInternalQuery, new JsonSerializerSettings
+        {
+          ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+          TypeNameHandling = TypeNameHandling.All
+        });
+
       return internalRemoteQuery;
     }
 
@@ -96,8 +98,12 @@ namespace Sharp.RemoteQueryable.Server
       if (requestedCollection == null)
         return resultFromStorage;
 
-      var enumerableQueryable = (IQueryable)Activator.CreateInstance(typeof (EnumerableQuery<>).MakeGenericType(targetType), new [] { requestedCollection });
-      var postQueryPartialExpression = ExpressionModifier.GetPostQueryPartialExpression(expression, enumerableQueryable);
+      var enumerableQueryable = (IQueryable)Activator
+        .CreateInstance(typeof (EnumerableQuery<>).MakeGenericType(targetType), new [] { requestedCollection });
+
+      var postQueryPartialExpression = ExpressionModifier
+        .GetPostQueryPartialExpression(expression, enumerableQueryable);
+
       if (postQueryPartialExpression == null)
         return resultFromStorage;
 
