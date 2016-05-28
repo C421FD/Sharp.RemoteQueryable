@@ -3,20 +3,43 @@ using System.Linq.Expressions;
 
 namespace Sharp.RemoteQueryable.Server
 {
-  public static class ExpressionModifier
+  /// <summary>
+  /// Wrapper for expression visitors.
+  /// </summary>
+  internal static class ExpressionModifier
   {
-    private static readonly NhibernateExpressionEvaluator nhibernateExpressionEvaluator = new NhibernateExpressionEvaluator();
+    #region Fields
 
-    private static readonly PostQueryEvaluator postQueryEvaluator = new PostQueryEvaluator();
+    private static readonly NhibernateExpressionVisitor NhibernateExpressionVisitor = new NhibernateExpressionVisitor();
 
-    public static Expression GetNhibernatePartialExpression(Expression expression, IQueryable nhibernateSource)
+    private static readonly PostQueryExpressionVisitor PostQueryExpressionVisitor = new PostQueryExpressionVisitor();
+
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Cut post expression part and fake queryable source and set new queryable source.
+    /// </summary>
+    /// <param name="expression">Source expression.</param>
+    /// <param name="newQueryableSource">New queryable data source.</param>
+    /// <returns>Modified expression for invoking in nhibernate context.</returns>
+    public static Expression GetNhibernatePartialExpression(Expression expression, IQueryable newQueryableSource)
     {
-      return nhibernateExpressionEvaluator.Evaluate(expression, nhibernateSource);
+      return NhibernateExpressionVisitor.Modify(expression, newQueryableSource);
     }
 
-    public static Expression GetPostQueryPartialExpression(Expression expression, IQueryable enumerableSource)
+    /// <summary>
+    /// Cut nhibernate expression part and set new queryable source.
+    /// </summary>
+    /// <param name="expression">Source expression.</param>
+    /// <param name="newQueryableSource">New queryable data source</param>
+    /// <returns></returns>
+    public static Expression GetPostQueryPartialExpression(Expression expression, IQueryable newQueryableSource)
     {
-      return postQueryEvaluator.Evaluate(expression, enumerableSource);
+      return PostQueryExpressionVisitor.Modify(expression, newQueryableSource);
     }
+
+    #endregion
   }
 }

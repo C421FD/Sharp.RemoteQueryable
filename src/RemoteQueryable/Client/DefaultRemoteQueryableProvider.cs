@@ -1,19 +1,19 @@
 ﻿using System.Linq;
 using System.Linq.Expressions;
-using Newtonsoft.Json;
+using Newtonsoft.Json; 
 
 namespace Sharp.RemoteQueryable.Client
 {
   /// <summary>
-  /// 
+  /// Default provider for transfer expression to server side and retrieve result.
   /// </summary>
-  /// <typeparam name="T"></typeparam>
+  /// <typeparam name="T">Type of result.</typeparam>
   public class DefaultRemoteQueryableProvider<T> : AbstractQueryProvider
   {
     #region Properties and fields
 
     /// <summary>
-    /// 
+    /// Transport-layer provider.
     /// </summary>
     private readonly IChannelProvider channelProvider;
 
@@ -38,24 +38,19 @@ namespace Sharp.RemoteQueryable.Client
     protected override object ExecuteOverride(Expression expression)
     {
       var serializedQuery = SerializeQuery(expression);
-      return this.channelProvider.SendRequest<object>(serializedQuery);
+      return channelProvider.SendRequest<object>(serializedQuery);
     }
 
     protected override TResult ExecuteOverride<TResult>(Expression expression)
     {
       var serializedQuery = SerializeQuery(expression);
-      return (TResult)this.channelProvider.SendRequest<TResult>(serializedQuery);
+      return this.channelProvider.SendRequest<TResult>(serializedQuery);
     }
 
     #endregion
 
     #region Methods
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="expression"></param>
-    /// <returns></returns>
     private static string SerializeQuery(Expression expression)
     {
       var newInternalQuery = InternalQuery.CreateMessage(expression, typeof(T));
@@ -71,10 +66,6 @@ namespace Sharp.RemoteQueryable.Client
 
     #region Ctors
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="channelProvider"></param>
     public DefaultRemoteQueryableProvider(IChannelProvider channelProvider)
     {
       this.channelProvider = channelProvider;

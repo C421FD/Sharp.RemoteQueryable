@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Sharp.RemoteQueryable.Server
 {
-  public abstract class ExpressionVisitor
+  internal abstract class ExpressionVisitor
   {
+    #region From https://msdn.microsoft.com/en-us/library/bb882521(v=vs.90).aspx
+
     protected virtual Expression Visit(Expression exp)
     {
       if (exp == null)
@@ -357,6 +360,29 @@ namespace Sharp.RemoteQueryable.Server
         return Expression.Invoke(expr, args);
       }
       return iv;
+    }
+
+    #endregion
+
+    protected IQueryable queryableSource;
+
+    protected Expression GetNextQueryAfterPostQuery(MethodCallExpression m)
+    {
+      var stack = new Stack<MethodCallExpression>();
+      stack.Push(m);
+      while (stack.Any())
+      {
+        var internalCallExpression = stack.Pop();
+        if (internalCallExpression != null)
+        {
+          if (internalCallExpression.Method.Name == nameof(PostQueryable<object>.WrapQuery))
+            return internalCallExpression.Arguments.Single();
+
+          foreach (var arg in internalCallExpression.Arguments.OfType<MethodCallExpression>())
+            stack.Push(arg);
+        }
+      }
+      return null;
     }
   }
 }

@@ -4,19 +4,46 @@ using System.Reflection;
 
 namespace Sharp.RemoteQueryable.Server
 {
-  public static class NHibernateTypesHelper
+  /// <summary>
+  /// Helper for loading the NHibernate types implicitly.
+  /// </summary>
+  /// <remarks>Destiny: decoupling the NHibernate.dll from library.</remarks>
+  internal static class NHibernateTypesHelper
   {
+    #region Fields and properties
+
+    /// <summary>
+    /// Loaded NHibernate assembly.
+    /// </summary>
     private static readonly Assembly nhibernateAssembly;
 
+    /// <summary>
+    /// ISession.
+    /// </summary>
     public static Type SessionType { get; private set; }
 
+    /// <summary>
+    /// NHibernate.ISession.
+    /// </summary>
     public static Type LinqExtensionType { get; private set; }
 
-    public static bool IsSessionObject(object sessionObject)
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Check if object is instance of ISession type.
+    /// </summary>
+    /// <param name="inspectedObject">Object for inspection.</param>
+    /// <returns>Return true, if object is ISession, otherwise false.</returns>
+    public static bool IsSessionObject(object inspectedObject)
     {
-      return SessionType.IsInstanceOfType(sessionObject);
+      return SessionType.IsInstanceOfType(inspectedObject);
     }
 
+    /// <summary>
+    /// Helper initialization.
+    /// </summary>
     static NHibernateTypesHelper()
     {
       nhibernateAssembly = AppDomain.CurrentDomain.GetAssemblies()
@@ -28,5 +55,7 @@ namespace Sharp.RemoteQueryable.Server
       LinqExtensionType = nhibernateAssembly.GetTypes()
         .Single(p => p.FullName.Equals("NHibernate.Linq.LinqExtensionMethods", StringComparison.OrdinalIgnoreCase));
     }
+
+    #endregion
   }
 }

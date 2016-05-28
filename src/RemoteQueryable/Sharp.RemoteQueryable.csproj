@@ -33,9 +33,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Iesi.Collections">
-      <HintPath>..\..\lib\Iesi.Collections.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -59,14 +56,14 @@
     <Compile Include="ExpressionValidator.cs" />
     <Compile Include="PostQueryable.cs" />
     <Compile Include="Server\ExpressionModifier.cs" />
-    <Compile Include="Server\NhibernateExpressionEvaluator.cs" />
+    <Compile Include="Server\NhibernateExpressionVisitor.cs" />
     <Compile Include="Server\ExpressionVisitor.cs" />
     <Compile Include="InternalQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Client\RemoteQueryable.cs" />
     <Compile Include="Client\DefaultRemoteQueryableProvider.cs" />
     <Compile Include="Server\NHibernateTypesHelper.cs" />
-    <Compile Include="Server\PostQueryEvaluator.cs" />
+    <Compile Include="Server\PostQueryExpressionVisitor.cs" />
     <Compile Include="Server\RemoteQueryExecutor.cs" />
     <Compile Include="RemoteRepository.cs" />
   </ItemGroup>

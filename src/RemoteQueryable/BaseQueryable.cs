@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.Serialization;
-using Newtonsoft.Json;
 using Sharp.RemoteQueryable.Client;
+using Newtonsoft.Json;
 
 namespace Sharp.RemoteQueryable
 {
@@ -17,7 +17,7 @@ namespace Sharp.RemoteQueryable
     /// <summary>
     /// 
     /// </summary>
-    protected volatile bool isSerializingContext;
+    protected volatile bool isInSerializingContext;
 
     /// <summary>
     /// 
@@ -31,13 +31,13 @@ namespace Sharp.RemoteQueryable
     [OnSerializing]
     internal void OnSerializing(StreamingContext context)
     {
-      this.isSerializingContext = true;
+      isInSerializingContext = true;
     }
 
     [OnSerialized]
     internal void OnSerialized(StreamingContext context)
     {
-      this.isSerializingContext = false;
+      isInSerializingContext = false;
     }
 
     #endregion
@@ -46,15 +46,15 @@ namespace Sharp.RemoteQueryable
 
     public IEnumerator<T> GetEnumerator()
     {
-      if (this.enumerable == null && !this.isSerializingContext)
-        this.enumerable = this.Provider.Execute<IEnumerable<T>>(this.Expression) ?? Enumerable.Empty<T>();
+      if (enumerable == null && !isInSerializingContext)
+        enumerable = Provider.Execute<IEnumerable<T>>(Expression) ?? Enumerable.Empty<T>();
 
-      return this.enumerable.GetEnumerator();
+      return enumerable.GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-      return this.isSerializingContext ? Enumerable.Empty<T>().GetEnumerator() : this.GetEnumerator();
+      return isInSerializingContext ? Enumerable.Empty<T>().GetEnumerator() : GetEnumerator();
     }
 
     public Expression Expression { get; set; }
@@ -77,8 +77,8 @@ namespace Sharp.RemoteQueryable
       if (channelProvider == null)
         throw new ArgumentNullException(nameof(channelProvider));
 
-      this.Expression = Expression.Constant(this);
-      this.Provider = new DefaultRemoteQueryableProvider<T>(channelProvider);
+      Expression = Expression.Constant(this);
+      Provider = new DefaultRemoteQueryableProvider<T>(channelProvider);
     }
 
     /// <summary>
@@ -93,13 +93,13 @@ namespace Sharp.RemoteQueryable
       if (expression == null)
         throw new ArgumentNullException(nameof(expression));
 
-      this.Expression = expression;
+      Expression = expression;
       this.Provider = provider;
     }
 
     protected BaseQueryable()
     {
-      this.Expression = Expression.Constant(this);
+      Expression = Expression.Constant(this);
     }
 
     #endregion

@@ -8,16 +8,16 @@ using Newtonsoft.Json;
 namespace Sharp.RemoteQueryable.Server
 {
   /// <summary>
-  /// 
+  /// Server API for execute remote request.
   /// </summary>
   public class RemoteQueryExecutor
   {
     /// <summary>
-    /// 
+    /// Execute remote query.
     /// </summary>
-    /// <param name="serializedInternalQuery"></param>
-    /// <param name="sessionObject"></param>
-    /// <returns></returns>
+    /// <param name="serializedInternalQuery">Remote query.</param>
+    /// <param name="sessionObject">ISession object.</param>
+    /// <returns>Query result.</returns>
     public object Do(string serializedInternalQuery, object sessionObject)
     {
       if (serializedInternalQuery == null)
@@ -29,14 +29,14 @@ namespace Sharp.RemoteQueryable.Server
       var internalRemoteQuery = DeserializeInternalQuery(serializedInternalQuery);
       var deserializedQuery = DeserializedQueryExpressionAndValidate(internalRemoteQuery);
       var targetType = ResolveType(internalRemoteQuery);
-      return Invoke(deserializedQuery, targetType, sessionObject);
+      return Execute(deserializedQuery, targetType, sessionObject);
     }
 
     /// <summary>
-    /// 
+    /// Resolve requested data type.
     /// </summary>
-    /// <param name="internalRemoteQuery"></param>
-    /// <returns></returns>
+    /// <param name="internalRemoteQuery">Query from server.</param>
+    /// <returns>Info of requested type.</returns>
     private static TypeInfo ResolveType(InternalQuery internalRemoteQuery)
     {
       var targetAssemblyName = internalRemoteQuery.RequestedTypeAssemblyName;
@@ -54,13 +54,6 @@ namespace Sharp.RemoteQueryable.Server
       return deserializedQuery;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="targetAssembly"></param>
-    /// <param name="requestedTypeName"></param>
-    /// <param name="targetAssemblyName"></param>
-    /// <returns></returns>
     private static TypeInfo GetTypeFromAssemblyOrThrownEx(Assembly targetAssembly, string requestedTypeName, string targetAssemblyName)
     {
       var targetType = targetAssembly.DefinedTypes
@@ -72,12 +65,6 @@ namespace Sharp.RemoteQueryable.Server
       return targetType;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="internalRemoteQuery"></param>
-    /// <param name="targetAssemblyName"></param>
-    /// <returns></returns>
     private static Assembly GetAssemblyOrThrownEx(InternalQuery internalRemoteQuery, string targetAssemblyName)
     {
       var targetAssembly = AppDomain.CurrentDomain.GetAssemblies()
@@ -89,11 +76,6 @@ namespace Sharp.RemoteQueryable.Server
       return targetAssembly;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="serializedInternalQuery"></param>
-    /// <returns></returns>
     private static InternalQuery DeserializeInternalQuery(string serializedInternalQuery)
     {
       var internalRemoteQuery = JsonConvert.DeserializeObject<InternalQuery>(serializedInternalQuery, new JsonSerializerSettings
@@ -104,25 +86,18 @@ namespace Sharp.RemoteQueryable.Server
       return internalRemoteQuery;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="toExpression"></param>
-    /// <param name="targetType"></param>
-    /// <param name="sessionObject"></param>
-    /// <returns></returns>
-    private static object Invoke(Expression toExpression, Type targetType, object sessionObject)
+    private static object Execute(Expression expression, Type targetType, object sessionObject)
     {
       var queryable = GetNhQueryableFromSession(targetType, sessionObject);
-      var nhibernatePartialExpression = ExpressionModifier.GetNhibernatePartialExpression(toExpression, queryable);
+      var nhibernatePartialExpression = ExpressionModifier.GetNhibernatePartialExpression(expression, queryable);
       
       var resultFromStorage = queryable.Provider.Execute(nhibernatePartialExpression);
-      var resultFromStorageAsEnumerable = resultFromStorage as IEnumerable<object>;
-      if (resultFromStorageAsEnumerable == null)
+      var requestedCollection = resultFromStorage as IEnumerable<object>;
+      if (requestedCollection == null)
         return resultFromStorage;
 
-      var enumerableQueryable = (IQueryable)Activator.CreateInstance(typeof (EnumerableQuery<>).MakeGenericType(targetType), new [] { resultFromStorageAsEnumerable });
-      var postQueryPartialExpression = ExpressionModifier.GetPostQueryPartialExpression(toExpression, enumerableQueryable);
+      var enumerableQueryable = (IQueryable)Activator.CreateInstance(typeof (EnumerableQuery<>).MakeGenericType(targetType), new [] { requestedCollection });
+      var postQueryPartialExpression = ExpressionModifier.GetPostQueryPartialExpression(expression, enumerableQueryable);
       if (postQueryPartialExpression == null)
         return resultFromStorage;
 

@@ -4,7 +4,11 @@ using Sharp.RemoteQueryable.Client;
 
 namespace Sharp.RemoteQueryable
 {
-  public class PostQueryable<T> : BaseQueryable<T>
+  /// <summary>
+  /// Queryable for invocation after NHibernate query.
+  /// </summary>
+  /// <typeparam name="T">Type of Result.</typeparam>
+  internal class PostQueryable<T> : BaseQueryable<T>
   {
     public static IQueryable<T> WrapQuery(IQueryable<T> sourceQuery)
     {
@@ -17,7 +21,7 @@ namespace Sharp.RemoteQueryable
 
     public PostQueryable(AbstractQueryProvider provider, Expression expression) : base(provider, expression) { }
 
-    public PostQueryable() { this.Expression = Expression.Constant(this); }
+    public PostQueryable() { Expression = Expression.Constant(this); }
 
     #endregion
   }
