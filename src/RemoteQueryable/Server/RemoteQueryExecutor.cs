@@ -98,6 +98,10 @@ namespace Sharp.RemoteQueryable.Server
       if (requestedCollection == null)
         return resultFromStorage;
 
+      var resultCollectionType = requestedCollection.GetType();
+      if (resultCollectionType.IsGenericType)
+        targetType = resultCollectionType.GetGenericArguments().Single();
+
       var enumerableQueryable = (IQueryable)Activator
         .CreateInstance(typeof (EnumerableQuery<>).MakeGenericType(targetType), new [] { requestedCollection });
 
