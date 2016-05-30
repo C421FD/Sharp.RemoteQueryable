@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Sharp.RemoteQueryable.Samples.Model" namespace="Sharp.RemoteQueryable.Samples.Model">
+  <class name="Developer" table="developer" lazy="false">
+    <id name="Id" column="id">
+      <generator class="increment"/>
+     </id>
+    <discriminator column="unit_type" type="string" />
+    <property name="Name" column="name" />
+    <property name="SkillLevel" column="skill_level" />
+    <bag name="WorkItems" cascade="all-delete-orphan" table="work_item" outer-join="auto" lazy="false">
+      <key column="work_items_id" />
+      <one-to-many class="WorkItem" />
+    </bag>
+    <subclass name="Teamleader" discriminator-value="teamleader">
+      <property name="Experience" column="experience" />
+    </subclass> 
+  </class>
+</hibernate-mapping>

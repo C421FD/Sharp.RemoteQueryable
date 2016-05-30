@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Sharp.RemoteQueryable.Samples.Model" namespace="Sharp.RemoteQueryable.Samples.Model">
+  <class name="Team" table="team" lazy="false">
+    <id name="Id" column="id">
+      <generator class="increment"/>
+    </id>
+    <property name="Title" column="title" /> 
+    <bag name="Developers" cascade="all-delete-orphan" table="developer" lazy="false" fetch="join">
+      <key column="developer_id" />
+      <one-to-many class="Developer" />
+    </bag>
+    <many-to-one name="Leader"
+       class="Teamleader"
+       column="teamleader_id"
+       lazy="false"
+       cascade="all-delete-orphan"
+       unique="true"
+       fetch="join"/>
+  </class>
+</hibernate-mapping>

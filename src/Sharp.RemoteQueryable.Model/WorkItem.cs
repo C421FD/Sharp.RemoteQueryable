@@ -6,9 +6,9 @@ namespace Sharp.RemoteQueryable.Samples.Model
   public class WorkItem : BaseEntity
   {
     [DataMember]
-    public string Text { get; set; }
+    public virtual string Text { get; set; }
 
     [DataMember]
-    public int Priority { get; set; }
+    public virtual int Priority { get; set; }
   }
 }

@@ -7,6 +7,6 @@ namespace Sharp.RemoteQueryable.Samples.Model
   public class Teamleader : Developer
   {
     [DataMember]
-    public IList<Developer> TeamMembership { get; set; } = new List<Developer>();
+    public virtual int Experience { get; set; }
   }
 }

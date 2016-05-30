@@ -7,7 +7,7 @@ using NHibernate.Hql.Ast.ANTLR;
 using NHibernate.Linq;
 using NHibernate.Tool.hbm2ddl;
 
-namespace Sharp.RemoteQueryable.Tests.Infrastructure
+namespace Sharp.RemoteQueryable.Samples.WcfServer
 {
   public static class NHibernateHelper
   {
@@ -25,9 +25,6 @@ namespace Sharp.RemoteQueryable.Tests.Infrastructure
       return translators[0].SQLString;
     }
 
-    /// <summary>
-    /// Фабрика сессии.
-    /// </summary>
     private static ISessionFactory SessionFactory
     {
       get
@@ -47,11 +44,6 @@ namespace Sharp.RemoteQueryable.Tests.Infrastructure
       }
     }
 
-    /// <summary>
-    /// Открыть сессию работы с БД.
-    /// </summary>
-    /// <returns>Сессия.</returns>
-    /// <remarks>Не потокобезопасна!</remarks>
     public static ISession OpenSession()
     {
       return SessionFactory.OpenSession();
@@ -59,7 +51,7 @@ namespace Sharp.RemoteQueryable.Tests.Infrastructure
 
     static NHibernateHelper()
     {
-      HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
+      
     }
   }
 }

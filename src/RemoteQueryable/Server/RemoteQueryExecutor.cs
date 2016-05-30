@@ -10,7 +10,7 @@ namespace Sharp.RemoteQueryable.Server
   /// <summary>
   /// Server API for execute remote request.
   /// </summary>
-  public class RemoteQueryExecutor
+  public static class RemoteQueryExecutor
   {
     /// <summary>
     /// Execute remote query.
@@ -18,7 +18,7 @@ namespace Sharp.RemoteQueryable.Server
     /// <param name="serializedInternalQuery">Remote query.</param>
     /// <param name="sessionObject">ISession object.</param>
     /// <returns>Query result.</returns>
-    public object Do(string serializedInternalQuery, object sessionObject)
+    public static object Do(string serializedInternalQuery, object sessionObject)
     {
       if (serializedInternalQuery == null)
         throw new ArgumentNullException(nameof(serializedInternalQuery));

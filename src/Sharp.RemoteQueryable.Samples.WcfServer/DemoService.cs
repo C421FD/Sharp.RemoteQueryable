@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Sharp.RemoteQueryable.Samples.Contracts;
 using Sharp.RemoteQueryable.Samples.Model;
+using Sharp.RemoteQueryable.Server;
 
 namespace Sharp.RemoteQueryable.Samples.WcfServer
 {
@@ -13,17 +14,20 @@ namespace Sharp.RemoteQueryable.Samples.WcfServer
   {
     public object GetScalar(string query)
     {
-      return 1;
+      using (var session = NHibernateHelper.OpenSession())
+        return RemoteQueryExecutor.Do(query, session);
     }
 
     public BaseEntity GetSingle(string query)
     {
-      return new BaseEntity();
+      using (var session = NHibernateHelper.OpenSession())
+        return (BaseEntity)RemoteQueryExecutor.Do(query, session);
     }
 
     public IEnumerable<BaseEntity> GetEnumerable(string query)
     {
-      return Enumerable.Empty<BaseEntity>();
+      using (var session = NHibernateHelper.OpenSession())
+        return (IEnumerable<BaseEntity>)RemoteQueryExecutor.Do(query, session);
     }
   }
 }

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 using Sharp.RemoteQueryable.Client;
 using Sharp.RemoteQueryable.Samples.Contracts;
 using Sharp.RemoteQueryable.Samples.Model;
@@ -19,8 +17,10 @@ namespace Sharp.RemoteQueryable.Samples.WcfClient
     public DemoChannelProvider()
     {
       var endpoint = new EndpointAddress($"http://localhost:8888/RemoteQueryableDemo/DemoService");
-      this.demoService = ChannelFactory<IDemoService>.CreateChannel(new BasicHttpBinding(), endpoint);
-
+      this.demoService = ChannelFactory<IDemoService>.CreateChannel(new BasicHttpBinding()
+      {
+        ReceiveTimeout = TimeSpan.FromSeconds(30)
+      }, endpoint);
     }
 
     public T SendRequest<T>(string request)
