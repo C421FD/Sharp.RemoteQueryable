@@ -2,9 +2,9 @@
 <hibernate-configuration xmlns="urn:nhibernate-configuration-2.2">
   <session-factory>
     <property name="connection.provider">NHibernate.Connection.DriverConnectionProvider</property>
-    <property name="dialect">NHibernate.Dialect.PostgreSQL82Dialect</property>
-    <property name="connection.driver_class">NHibernate.Driver.NpgsqlDriver</property>
-    <property name="connection.connection_string">Server=localhost;database=test_remotequeryable;user id=postgres;password=11111</property>
+    <property name="connection.driver_class">NHibernate.Driver.SQLite20Driver</property>
+    <property name="dialect">NHibernate.Dialect.SQLiteDialect</property>
+    <property name="connection.connection_string">Data Source=test.db;Version=3</property>
     <property name="current_session_context_class">web</property>
     <property name="show_sql">true</property>
     <property name="generate_statistics">true</property>

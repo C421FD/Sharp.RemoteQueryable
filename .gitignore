@@ -24,3 +24,15 @@
 /src/Sharp.RemoteQueryable.Samples.WpfWcfClient/obj/Debug
 /src/Sharp.RemoteQueryable.Samples.WpfWcfClient/bin/Debug
 *.user
+/TestResults
+/bin
+/src/Sharp.RemoteQueryable.Samples.WpfWcfClient/obj/Release
+/src/Sharp.RemoteQueryable.Samples.WpfWcfClient/bin/Release
+/src/Sharp.RemoteQueryable.Samples.WcfServer/obj/Release
+/src/Sharp.RemoteQueryable.Samples.WcfServer/bin/Release
+/src/Sharp.RemoteQueryable.Samples.WcfClient/obj/Release
+/src/Sharp.RemoteQueryable.Samples.WcfClient/bin/Release
+/src/Sharp.RemoteQueryable.Samples.DataContract/obj/Release
+/src/Sharp.RemoteQueryable.Samples.DataContract/bin/Release
+/src/Sharp.RemoteQueryable.Model/obj/Release
+/src/Sharp.RemoteQueryable.Model/bin/Release
