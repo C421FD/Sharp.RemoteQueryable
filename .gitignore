@@ -21,3 +21,6 @@
 /src/Sharp.RemoteQueryable.Model/obj/Debug
 /src/Sharp.RemoteQueryable.Model/bin/Debug
 /src/packages
+/src/Sharp.RemoteQueryable.Samples.WpfWcfClient/obj/Debug
+/src/Sharp.RemoteQueryable.Samples.WpfWcfClient/bin/Debug
+*.user
