@@ -9,7 +9,7 @@ using Sharp.RemoteQueryable.Samples.Model;
 using Sharp.RemoteQueryable.Server;
 
 namespace Sharp.RemoteQueryable.Samples.WcfServer
-{
+{ 
   public class DemoService : IDemoService
   {
     public object GetScalar(string query)

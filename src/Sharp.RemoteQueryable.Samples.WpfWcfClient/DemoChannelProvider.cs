@@ -7,11 +7,11 @@ using Sharp.RemoteQueryable.Client;
 using Sharp.RemoteQueryable.Samples.Contracts;
 using Sharp.RemoteQueryable.Samples.Model;
 
-namespace Sharp.RemoteQueryable.Samples.WcfClient
+namespace Sharp.RemoteQueryable.Samples.WpfWcfClient
 {
   public class DemoChannelProvider : IChannelProvider
   {
-    private readonly Type[] builtInScalarTypes = new Type[] { typeof(string), typeof(int), typeof(long), typeof(bool) };
+    private readonly Type[] builtInScalarTypes = new Type[] { typeof (string), typeof (int), typeof (long), typeof (bool) };
 
     private readonly IDemoService demoService;
 
@@ -36,7 +36,7 @@ namespace Sharp.RemoteQueryable.Samples.WcfClient
 
       if (requestedType.IsGenericType && typeof(IEnumerable<>) == requestedType.GetGenericTypeDefinition())
       {
-        var elementsType = requestedType.GetGenericArguments();
+        var elementsType = requestedType.GetGenericArguments().Single();
         var resultCollection = this.demoService.GetEnumerable(request);
         var ofTypeMethod = typeof(Enumerable)
           .GetMethod(nameof(Enumerable.OfType), BindingFlags.Static | BindingFlags.Public);

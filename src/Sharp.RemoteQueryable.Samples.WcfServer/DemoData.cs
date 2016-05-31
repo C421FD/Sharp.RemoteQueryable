@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,14 +36,70 @@ namespace Sharp.RemoteQueryable.Samples.WcfServer
       "Frederic Leland",
       "Shanon Tunstall",
       "Sha Henery",
-      "Caroll Shuford"
+      "Caroll Shuford",
+      "Jesica Kielbasa",
+      "Cecelia Heist",
+      "Daniele Commons",
+      "Eura Tusa",
+      "Estelle Long",
+      "Nam Rampton",
+      "Vanna Barger",
+      "Jama Buser",
+      "Vasiliki Biro",
+      "Pasty Burbage",
+      "Precious Endo",
+      "Alease Hemminger",
+      "David Howlett",
+      "Denita Jordahl",
+      "Kandace Brummitt",
+      "Idella Fritch",
+      "Dylan Bushong",
+      "Mabel Golston",
+      "Trevor Navarette",
+      "Isabell Greenlaw",
+      "Ophelia Lapan",
+      "Jerrold Jarboe",
+      "Agripina Westlake",
+      "Yetta Opitz",
+      "Mireille Stinnett",
+      "Emerald Pedraza",
+      "Lavern Glassman",
+      "Chung Postel",
+      "Juliette Rinaldo",
+      "Bruno Covington",
+      "Beau Star",
+      "Tawana Hartsfield",
+      "Lashay Folson",
+      "Tina Braud",
+      "Marjorie Carmean",
+      "Maragret Sons",
+      "Arlena Arellano",
+      "Tiesha Bellamy",
+      "Donte Ansley",
+      "Saturnina Whitsitt",
+      "Berenice Householder",
+      "Dorla Martins",
+      "Racheal Lasso",
+      "Luella Maclean",
+      "Devorah Panetta",
+      "Maryellen Prejean",
+      "Edith Sumrall",
+      "Queenie Champion",
+      "Iliana Plasencia",
+      "Jewel Miner",
     };
 
     public static void Generate()
     {
+      RemoveExistingDatabaseIfNeed();
       var developers = GenerateDevelopers();
       GenerateTeams(developers);
+    }
 
+    private static void RemoveExistingDatabaseIfNeed()
+    {
+      if (File.Exists("demo.db"))
+        File.Delete("demo.db");
     }
 
     private static void GenerateTeams(IEnumerable<Developer> developers)

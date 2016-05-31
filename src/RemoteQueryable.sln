@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharp.RemoteQueryable.Sampl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharp.RemoteQueryable.Samples.WcfClient", "Sharp.RemoteQueryable.Samples.WcfClient\Sharp.RemoteQueryable.Samples.WcfClient.csproj", "{A807E00D-724C-426D-9B80-8F2A8DC5B008}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharp.RemoteQueryable.Samples.WpfWcfClient", "Sharp.RemoteQueryable.Samples.WpfWcfClient\Sharp.RemoteQueryable.Samples.WpfWcfClient.csproj", "{FE37F2AF-95C2-4EB7-A0F7-E47FE04C1F89}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{A807E00D-724C-426D-9B80-8F2A8DC5B008}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A807E00D-724C-426D-9B80-8F2A8DC5B008}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A807E00D-724C-426D-9B80-8F2A8DC5B008}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE37F2AF-95C2-4EB7-A0F7-E47FE04C1F89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE37F2AF-95C2-4EB7-A0F7-E47FE04C1F89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE37F2AF-95C2-4EB7-A0F7-E47FE04C1F89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE37F2AF-95C2-4EB7-A0F7-E47FE04C1F89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,5 +65,6 @@ Global
 		{A1516C40-81FF-4237-A3A4-CC3FC720D2A4} = {89F2C505-CADE-45B6-A1BC-01ABBF48A789}
 		{7CDF2CB4-6467-4BED-83BB-1608F12487DC} = {89F2C505-CADE-45B6-A1BC-01ABBF48A789}
 		{A807E00D-724C-426D-9B80-8F2A8DC5B008} = {89F2C505-CADE-45B6-A1BC-01ABBF48A789}
+		{FE37F2AF-95C2-4EB7-A0F7-E47FE04C1F89} = {89F2C505-CADE-45B6-A1BC-01ABBF48A789}
 	EndGlobalSection
 EndGlobal
