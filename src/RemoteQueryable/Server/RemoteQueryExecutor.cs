@@ -92,18 +92,7 @@ namespace Sharp.RemoteQueryable.Server
     {
       var queryable = GetNhQueryableFromSession(targetType, sessionObject);
       var nhibernatePartialExpression = ExpressionModifier.GetNhibernatePartialExpression(expression, queryable);
-
-      var expressionResultType = nhibernatePartialExpression.Type;
-      object resultFromStorage = null;
-      if (expressionResultType.IsGenericType && typeof (IQueryable<>).IsAssignableFrom(expressionResultType.GetGenericTypeDefinition()))
-      {
-        var genericTypeArgument = expressionResultType.GetGenericArguments().FirstOrDefault();
-        resultFromStorage = Activator
-          .CreateInstance(typeof(List<>).MakeGenericType(genericTypeArgument), queryable.Provider.Execute(nhibernatePartialExpression));
-      }
-      else
-        resultFromStorage = queryable.Provider.Execute(nhibernatePartialExpression);
-
+      var resultFromStorage = queryable.Provider.Execute(nhibernatePartialExpression);
       var requestedCollection = resultFromStorage as IEnumerable<object>;
       if (requestedCollection == null)
         return resultFromStorage;
@@ -113,7 +102,7 @@ namespace Sharp.RemoteQueryable.Server
         targetType = resultCollectionType.GetGenericArguments().Single();
 
       var enumerableQueryable = (IQueryable)Activator
-        .CreateInstance(typeof (EnumerableQuery<>).MakeGenericType(targetType), new [] { requestedCollection });
+        .CreateInstance(typeof(EnumerableQuery<>).MakeGenericType(targetType), new[] { requestedCollection });
 
       var postQueryPartialExpression = ExpressionModifier
         .GetPostQueryPartialExpression(expression, enumerableQueryable);
