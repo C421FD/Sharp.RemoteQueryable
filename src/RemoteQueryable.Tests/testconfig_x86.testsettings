@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestSettings name="Local_x86" id="1fc46845-a72b-4ac7-a418-a6522918efe9" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Description>x86 test</Description>
+  <Deployment>
+    <DeploymentItem filename="RemoteQueryable.Tests\hibernate.cfg.xml" />
+  </Deployment>
+  <Execution hostProcessPlatform="MSIL">
+    <TestTypeSpecific>
+      <UnitTestRunConfig testTypeId="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b">
+        <AssemblyResolution applicationBaseDirectory="">
+          <TestDirectory useLoadContext="true" />
+        </AssemblyResolution>
+      </UnitTestRunConfig>
+    </TestTypeSpecific>
+    <AgentRule name="Execution Agents">
+    </AgentRule>
+  </Execution>
+  <Properties />
+</TestSettings>
