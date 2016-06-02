@@ -3,14 +3,17 @@ import xml.etree.ElementTree as ET
 import subprocess
 import codecs
 import settings
+import colorama
+from colorama import Fore, Back, Style
 
 ms_build_paths = None
 solution_path = None
 paths = None
 test_config = None
 test_containers = None
-build_command_template = "\"{0}\" {1} /t:Rebuild /p:Configuration={2} /verbosity:normal"
-
+build_command_template = "\"{0}\" {1} /t:{2} /p:Configuration={3} /consoleloggerparameters:Summary /verbosity:quiet"
+clean_command_temlate = "\"{0}\" {1} /t:{2} /p:Configuration={3} /consoleloggerparameters:Summary /verbosity:quiet"
+colorama.init()
 
 def get_command_arguments():
     copy_args = list(sys.argv)
@@ -37,10 +40,9 @@ def initialize_settings(settings_file_path):
 
 
 def main():
-
     try:
-        initialize_settings('env_settings.xml')
-        handlers = {'build': build, 'test': test}
+        initialize_settings('env\env_settings.xml')
+        handlers = {'build': build, 'test': test, 'rebuild': rebuild}
         if len(sys.argv) <= 1:
             print('Command did not put')
             return
@@ -54,11 +56,26 @@ def main():
         handler(args)
 
     except Exception:
-        print('During executing command occurred exception:')
+        print(Fore.RED + Back.BLACK + 'During executing command occurred exception:' + Style.RESET_ALL)
         print(sys.exc_info())
 
 
+def rebuild(arguments):
+    clean(arguments)
+    build(arguments)
+
+
+def clean(arguments):
+    print(Fore.LIGHTGREEN_EX + Back.BLACK + 'Clean project' + Style.RESET_ALL)
+    execute_ms_build_command(arguments, 'clean')
+
+
 def build(arguments):
+    print(Fore.LIGHTGREEN_EX + Back.BLACK + 'Build project' + Style.RESET_ALL)
+    execute_ms_build_command(arguments, 'build')
+
+
+def execute_ms_build_command(arguments, action):
     ms_build_path = ms_build_paths.get('x86')
     config = 'debug'
 
@@ -70,16 +87,15 @@ def build(arguments):
         if arg == 'debug' or arg == 'release':
             config = arg
 
-    build_command = build_command_template.format(ms_build_path, solution_path, config)
-    p = subprocess.Popen(build_command, shell=True, stdout=subprocess.PIPE)
+    command = clean_command_temlate.format(ms_build_path, solution_path, action, config)
+    print(Fore.LIGHTGREEN_EX + Back.BLACK + 'Invoke: {0}'.format(command) + Style.RESET_ALL)
+    result_code = subprocess.call(command, shell=True)
+    if result_code != 0:
+        raise Exception("MSBuild internal error, check the output")
 
-    for line in p.stdout.readlines():
-        codecs.decode
-        print(line.encode('utf-8'))
 
-
-def test(*args):
-    print("olala test")
+def test(arguments):
+    pass
 
 
 main()
