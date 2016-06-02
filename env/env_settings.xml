@@ -9,13 +9,13 @@
   </MSBuild>
 
   <Paths>
-    <DebugPath>bin\Debug\</DebugPath>
-    <ReleasePath>bin\</ReleasePath>
-    <InnerTestPath>Test\</InnerTestPath>
+    <Debug>bin\Debug\</Debug>
+    <Release>bin\</Release>
+    <InnerTest>Test\</InnerTest>
   </Paths>
 
   <!-- Testing assemblies list -->
   <Tests ConfigPath="testconfig_x86.testsettings">
-    <Container>Path="Sharp.RemoteQueryable.Tests.dll"</Container>
+    <Container>Sharp.RemoteQueryable.Tests.dll</Container>
   </Tests>
 </configurations>

@@ -5,15 +5,20 @@ import codecs
 import settings
 import colorama
 from colorama import Fore, Back, Style
+from os import path
+import pdb
 
 ms_build_paths = None
 solution_path = None
 paths = None
 test_config = None
 test_containers = None
+mstest_path = 'env\mstest.exe'
 build_command_template = "\"{0}\" {1} /t:{2} /p:Configuration={3} /consoleloggerparameters:Summary /verbosity:quiet"
 clean_command_temlate = "\"{0}\" {1} /t:{2} /p:Configuration={3} /consoleloggerparameters:Summary /verbosity:quiet"
+test_command_template = "\"{0}\" /testcontainer:{1} /testsettings:{2}"
 colorama.init()
+
 
 def get_command_arguments():
     copy_args = list(sys.argv)
@@ -29,7 +34,7 @@ def initialize_settings(settings_file_path):
     global ms_build_paths
     global solution_path
     global paths
-    global test_con
+    global test_config
     global test_containers
 
     ms_build_paths = settings.get_ms_build_paths(root)
@@ -95,7 +100,24 @@ def execute_ms_build_command(arguments, action):
 
 
 def test(arguments):
-    pass
+    build(arguments)
+    config = 'debug'
+    for arg in arguments:
+        arg = str.lower(arg)
+
+        if arg == 'debug' or arg == 'release':
+            config = arg
+
+    bin_path = path.join(paths.get(config), paths.get('innertest'))
+
+    for test_container in test_containers:
+        test_container_path = path.join(bin_path, test_container)
+        test_config_path = path.join(bin_path, test_config)
+        test_cmd = test_command_template.format(mstest_path, test_container_path, test_config_path)
+        print(Fore.LIGHTGREEN_EX + Back.BLACK + 'Invoke: {0}'.format(test_cmd) + Style.RESET_ALL)
+        result_code = subprocess.call(test_cmd, shell=True)
+        if result_code != 0:
+            raise Exception("MSTest internal error, check the output")
 
 
 main()

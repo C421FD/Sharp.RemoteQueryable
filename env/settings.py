@@ -15,7 +15,7 @@ def get_paths(root):
     result = {}
     paths_section = root.find('Paths')
     for ms_build_path in paths_section:
-        result[str(ms_build_path.tag)] = ms_build_path.text
+        result[str(ms_build_path.tag).lower()] = ms_build_path.text
 
     return result
 
