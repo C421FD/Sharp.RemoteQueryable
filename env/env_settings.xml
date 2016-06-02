@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configurations>
+  <SolutionName>src\RemoteQueryable.sln</SolutionName>
+
+  <!-- MSBuild path -->
+  <MSBuild>
+    <Path target="x86">C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe</Path>
+    <Path target="x64">C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe</Path>
+  </MSBuild>
+
+  <Paths>
+    <DebugPath>bin\Debug\</DebugPath>
+    <ReleasePath>bin\</ReleasePath>
+    <InnerTestPath>Test\</InnerTestPath>
+  </Paths>
+
+  <!-- Testing assemblies list -->
+  <Tests ConfigPath="testconfig_x86.testsettings">
+    <Container>Path="Sharp.RemoteQueryable.Tests.dll"</Container>
+  </Tests>
+</configurations>
