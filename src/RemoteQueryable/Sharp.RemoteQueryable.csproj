@@ -58,7 +58,7 @@
     <Compile Include="Server\ExpressionModifier.cs" />
     <Compile Include="Server\NhibernateExpressionVisitor.cs" />
     <Compile Include="Server\ExpressionVisitor.cs" />
-    <Compile Include="InternalQuery.cs" />
+    <Compile Include="QueryDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Client\RemoteQueryable.cs" />
     <Compile Include="Client\DefaultRemoteQueryableProvider.cs" />

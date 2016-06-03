@@ -356,7 +356,7 @@ namespace Sharp.RemoteQueryable.Tests
           .TakeWhile(p => p.Id < 6)
           .Count();
       }
-      catch (ParserException ex) { }
+      catch (ParserException) { }
     }
   }
 }

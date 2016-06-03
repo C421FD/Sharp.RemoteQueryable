@@ -53,7 +53,7 @@ namespace Sharp.RemoteQueryable.Client
 
     private static string SerializeQuery(Expression expression)
     {
-      var newInternalQuery = InternalQuery.CreateMessage(expression, typeof(T));
+      var newInternalQuery = QueryDto.CreateQueryDto(expression, typeof(T));
       var serializedQuery = JsonConvert.SerializeObject(newInternalQuery, new JsonSerializerSettings
       {
         ReferenceLoopHandling = ReferenceLoopHandling.Ignore,

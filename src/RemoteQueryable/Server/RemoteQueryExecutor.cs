@@ -35,21 +35,21 @@ namespace Sharp.RemoteQueryable.Server
     /// <summary>
     /// Resolve requested data type.
     /// </summary>
-    /// <param name="internalRemoteQuery">Query from server.</param>
+    /// <param name="remoteQueryDto">Query from server.</param>
     /// <returns>Info of requested type.</returns>
-    private static TypeInfo ResolveType(InternalQuery internalRemoteQuery)
+    private static TypeInfo ResolveType(QueryDto remoteQueryDto)
     {
-      var targetAssemblyName = internalRemoteQuery.RequestedTypeAssemblyName;
-      var targetAssembly = GetAssemblyOrThrownEx(internalRemoteQuery, targetAssemblyName);
-      var targetType = GetTypeFromAssemblyOrThrownEx(targetAssembly, internalRemoteQuery.RequestedTypeName, 
+      var targetAssemblyName = remoteQueryDto.RequestedTypeAssemblyName;
+      var targetAssembly = GetAssemblyOrThrownEx(remoteQueryDto, targetAssemblyName);
+      var targetType = GetTypeFromAssemblyOrThrownEx(targetAssembly, remoteQueryDto.RequestedTypeName, 
         targetAssemblyName);
 
       return targetType;
     }
 
-    private static Expression DeserializedQueryExpressionAndValidate(InternalQuery internalRemoteQuery)
+    private static Expression DeserializedQueryExpressionAndValidate(QueryDto remoteQueryDto)
     {
-      var deserializedQuery = internalRemoteQuery.SerializedExpression.ToExpression();
+      var deserializedQuery = remoteQueryDto.SerializedExpression.ToExpression();
       ExpressionValidator.Validate(deserializedQuery);
       return deserializedQuery;
     }
@@ -65,10 +65,10 @@ namespace Sharp.RemoteQueryable.Server
       return targetType;
     }
 
-    private static Assembly GetAssemblyOrThrownEx(InternalQuery internalRemoteQuery, string targetAssemblyName)
+    private static Assembly GetAssemblyOrThrownEx(QueryDto remoteQueryDto, string targetAssemblyName)
     {
       var targetAssembly = AppDomain.CurrentDomain.GetAssemblies()
-        .FirstOrDefault(asm => asm.FullName.Equals(internalRemoteQuery.RequestedTypeAssemblyName, StringComparison.OrdinalIgnoreCase));
+        .FirstOrDefault(asm => asm.FullName.Equals(remoteQueryDto.RequestedTypeAssemblyName, StringComparison.OrdinalIgnoreCase));
 
       if (targetAssembly == null)
         throw new InvalidOperationException(string.Format("Assembly with name '{0}' not found in server app domain", targetAssemblyName));
@@ -76,10 +76,10 @@ namespace Sharp.RemoteQueryable.Server
       return targetAssembly;
     }
 
-    private static InternalQuery DeserializeInternalQuery(string serializedInternalQuery)
+    private static QueryDto DeserializeInternalQuery(string serializedInternalQuery)
     {
       var internalRemoteQuery = JsonConvert
-        .DeserializeObject<InternalQuery>(serializedInternalQuery, new JsonSerializerSettings
+        .DeserializeObject<QueryDto>(serializedInternalQuery, new JsonSerializerSettings
         {
           ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
           TypeNameHandling = TypeNameHandling.All

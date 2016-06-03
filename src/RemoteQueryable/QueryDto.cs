@@ -7,45 +7,42 @@ using Serialize.Linq.Nodes;
 namespace Sharp.RemoteQueryable
 {
   /// <summary>
-  /// 
+  /// Query container.
   /// </summary>
   [Serializable]
-  public class InternalQuery
+  public class QueryDto
   {
-    /// <summary>
-    /// 
-    /// </summary>
     public ExpressionNode SerializedExpression { get; set; }
 
-    /// <summary>
-    /// 
-    /// </summary>
     public string RequestedTypeName { get; set; }
 
-    /// <summary>
-    /// 
-    /// </summary>
     public string RequestedTypeAssemblyName { get; set; }
 
     /// <summary>
-    /// 
+    /// Create query dto from expression and result type.
     /// </summary>
-    /// <param name="expression"></param>
-    /// <param name="type"></param>
-    /// <returns></returns>
-    public static InternalQuery CreateMessage(Expression expression, Type type)
+    /// <param name="expression">Client linq expression.</param>
+    /// <param name="type">Type of result.</param>
+    /// <returns>Query data transfer object.</returns>
+    public static QueryDto CreateQueryDto(Expression expression, Type type)
     {
+      if (expression == null)
+        throw new ArgumentNullException(nameof(expression));
+
+      if (type == null)
+        throw new ArgumentNullException(nameof(type));
+
       var serializedExpression = expression.ToExpressionNode();
-      return new InternalQuery(serializedExpression, type.FullName, type.Assembly.FullName);
+      return new QueryDto(serializedExpression, type.FullName, type.Assembly.FullName);
     }
 
     /// <summary>
-    /// 
+    /// Ctor.
     /// </summary>
     /// <param name="serializedExpression"></param>
     /// <param name="requestedTypeName"></param>
     /// <param name="requestedTypeAssemblyName"></param>
-    private InternalQuery(ExpressionNode serializedExpression, string requestedTypeName, string requestedTypeAssemblyName)
+    private QueryDto(ExpressionNode serializedExpression, string requestedTypeName, string requestedTypeAssemblyName)
     {
       this.SerializedExpression = serializedExpression;
       this.RequestedTypeName = requestedTypeName;
@@ -55,6 +52,6 @@ namespace Sharp.RemoteQueryable
     /// <summary>
     /// 
     /// </summary>
-    protected InternalQuery() { }
+    protected QueryDto() { }
   }
 }

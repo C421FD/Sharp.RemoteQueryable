@@ -4,9 +4,9 @@ using Newtonsoft.Json;
 namespace Sharp.RemoteQueryable.Client
 {
   /// <summary>
-  /// 
+  /// Queryable object, providing invoke expression in a remote server. 
   /// </summary>
-  /// <typeparam name="T"></typeparam>
+  /// <typeparam name="T">Type of result.</typeparam>
   [JsonObject(MemberSerialization.OptOut)]
   public class RemoteQueryable<T> : BaseQueryable<T>
   {
