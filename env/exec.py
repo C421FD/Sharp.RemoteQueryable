@@ -14,8 +14,8 @@ paths = None
 test_config = None
 test_containers = None
 mstest_path = 'env\mstest.exe'
-build_command_template = "\"{0}\" {1} /t:{2} /p:Configuration={3} /consoleloggerparameters:Summary /verbosity:quiet"
-clean_command_temlate = "\"{0}\" {1} /t:{2} /p:Configuration={3} /consoleloggerparameters:Summary /verbosity:quiet"
+build_command_template = "\"{0}\" {1} /t:{2} /p:Configuration={3} /consoleloggerparameters:Summary /verbosity:minimal"
+clean_command_temlate = "\"{0}\" {1} /t:{2} /p:Configuration={3} /consoleloggerparameters:Summary /verbosity:minimal"
 test_command_template = "\"{0}\" /testcontainer:{1} /testsettings:{2}"
 colorama.init()
 
@@ -47,7 +47,7 @@ def initialize_settings(settings_file_path):
 def main():
     try:
         initialize_settings('env\env_settings.xml')
-        handlers = {'build': build, 'test': test, 'rebuild': rebuild}
+        handlers = {'build': build, 'rebuild': rebuild, 'clean': clean, 'test': test }
         if len(sys.argv) <= 1:
             print('Command did not put')
             return
@@ -71,12 +71,12 @@ def rebuild(arguments):
 
 
 def clean(arguments):
-    print(Fore.LIGHTGREEN_EX + Back.BLACK + 'Clean project' + Style.RESET_ALL)
+    print(Fore.BLACK + Back.LIGHTGREEN_EX + 'Clean project' + Style.RESET_ALL)
     execute_ms_build_command(arguments, 'clean')
 
 
 def build(arguments):
-    print(Fore.LIGHTGREEN_EX + Back.BLACK + 'Build project' + Style.RESET_ALL)
+    print(Fore.BLACK + Back.LIGHTGREEN_EX+ 'Build project' + Style.RESET_ALL)
     execute_ms_build_command(arguments, 'build')
 
 
@@ -104,7 +104,6 @@ def test(arguments):
     config = 'debug'
     for arg in arguments:
         arg = str.lower(arg)
-
         if arg == 'debug' or arg == 'release':
             config = arg
 

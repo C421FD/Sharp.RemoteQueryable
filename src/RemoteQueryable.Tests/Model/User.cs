@@ -17,5 +17,10 @@
       var user = obj as User;
       return user?.Id == this.Id;
     }
+
+    public override int GetHashCode()
+    {
+      return base.GetHashCode();
+    }
   }
 }

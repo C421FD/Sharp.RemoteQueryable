@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using ExpressionVisitor = Sharp.RemoteQueryable.Server.ExpressionVisitor;
+using System.Linq.Expressions; 
 
 namespace Sharp.RemoteQueryable.Client
 {
@@ -71,20 +70,6 @@ namespace Sharp.RemoteQueryable.Client
       }
 
       return null;
-    }
-
-    protected override Expression VisitMethodCall(MethodCallExpression m)
-    {
-      var obj = this.Visit(m.Object);
-      IEnumerable<Expression> args = this.VisitExpressionList(m.Arguments);
-      if (obj != m.Object || args != m.Arguments)
-      {
-        var evaluatedArgs = new List<Expression>();
-
-        return Expression.Call(obj, m.Method, args);
-      }
-
-      return m;
     }
   }
 }

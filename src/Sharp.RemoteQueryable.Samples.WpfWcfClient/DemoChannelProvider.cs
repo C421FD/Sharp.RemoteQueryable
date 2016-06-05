@@ -15,6 +15,9 @@ namespace Sharp.RemoteQueryable.Samples.WpfWcfClient
 
     private readonly IDemoService demoService;
 
+    /// <summary>
+    /// Ctor.
+    /// </summary>
     public DemoChannelProvider()
     {
       var endpoint = new EndpointAddress($"http://localhost:8888/RemoteQueryableDemo/DemoService");
@@ -24,6 +27,12 @@ namespace Sharp.RemoteQueryable.Samples.WpfWcfClient
       }, endpoint);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="request"></param>
+    /// <returns></returns>
     public T SendRequest<T>(string request)
     {
       var requestedType = typeof(T);
