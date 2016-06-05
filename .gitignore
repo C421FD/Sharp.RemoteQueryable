@@ -37,3 +37,4 @@
 /src/Sharp.RemoteQueryable.Model/obj/Release
 /src/Sharp.RemoteQueryable.Model/bin/Release
 /src/TestResults
+/env/Python35-32/Lib/__pycache__
