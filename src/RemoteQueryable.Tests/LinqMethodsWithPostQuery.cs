@@ -77,12 +77,18 @@ namespace Sharp.RemoteQueryable.Tests
       result.Single().Id.Should().Be(21, "request return other object instead etalon");
     }
 
+    private int TstMet()
+    {
+      return 4;
+    }
+
     [TestMethod]
     public void WherePreQueryAndCleanPostQuery()
     {
+      int b = 4;
       var result = RemoteRepository
         .CreateQuery<User>(new TestChannelProvider())
-        .Where(p => p.Name.Equals("BB1"))
+        .Where(p => p.Id == TstMet())
         .PostQuery()
         .ToList();
 

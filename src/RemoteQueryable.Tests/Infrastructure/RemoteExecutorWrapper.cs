@@ -1,4 +1,7 @@
-﻿using Sharp.RemoteQueryable.Server;
+﻿using System.Linq;
+using NHibernate.Linq;
+using Sharp.RemoteQueryable.Server;
+using Sharp.RemoteQueryable.Tests.Model;
 
 namespace Sharp.RemoteQueryable.Tests.Infrastructure
 {
