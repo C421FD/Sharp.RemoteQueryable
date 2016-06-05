@@ -6,7 +6,7 @@ namespace Sharp.RemoteQueryable.Server
   /// <summary>
   /// Expression tree modifier for conversion source expression to 'post' expression.
   /// </summary>
-  internal class PostQueryExpressionVisitor : ExpressionVisitor
+  internal class PostQueryExpressionVisitor : ServerExpressionVisitor
   {
     #region Methods
 

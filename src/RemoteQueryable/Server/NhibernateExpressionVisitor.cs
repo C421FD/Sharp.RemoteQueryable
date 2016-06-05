@@ -6,7 +6,7 @@ namespace Sharp.RemoteQueryable.Server
   /// <summary>
   /// Expression tree modifier for conversion source expression to nhibernate expression.
   /// </summary>
-  internal class NhibernateExpressionVisitor : ExpressionVisitor
+  internal class NhibernateExpressionVisitor : ServerExpressionVisitor
   {
     /// <summary>
     /// Execute modify process.

@@ -17,6 +17,8 @@ namespace Sharp.RemoteQueryable.Client
     /// </summary>
     private readonly IChannelProvider channelProvider;
 
+    private readonly ClientExpressionVisitor expressionEvaluator = new ClientExpressionVisitor();
+
     #endregion
 
     #region IQueryProvider
@@ -37,13 +39,15 @@ namespace Sharp.RemoteQueryable.Client
 
     protected override object ExecuteOverride(Expression expression)
     {
-      var serializedQuery = SerializeQuery(expression);
-      return channelProvider.SendRequest<object>(serializedQuery);
+      var partialEvaluatedExpression = this.expressionEvaluator.Evaluate(expression);
+      var serializedQuery = SerializeQuery(partialEvaluatedExpression);
+      return this.channelProvider.SendRequest<object>(serializedQuery);
     }
 
     protected override TResult ExecuteOverride<TResult>(Expression expression)
     {
-      var serializedQuery = SerializeQuery(expression);
+      var partialEvaluatedExpression = this.expressionEvaluator.Evaluate(expression);
+      var serializedQuery = SerializeQuery(partialEvaluatedExpression);
       return this.channelProvider.SendRequest<TResult>(serializedQuery);
     }
 
