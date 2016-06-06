@@ -2,7 +2,7 @@ Welcome to RemoteQueryable
 =====================
 RemoteQueryable - this is a library to fulfill client requests on the server side using NHibernate library.
 
-RemoteQueryable over WCF sample
+Sample of RemoteQueryable execution over WCF 
 ---------------------
 1 Implement IChannelProvider for client-side
 ```
