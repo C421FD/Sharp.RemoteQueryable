@@ -22,8 +22,8 @@ namespace DataVirtualization
 
     private void Button_Click(object sender, RoutedEventArgs e)
     {
-      var customerProvider = new DemoDeveloperProvider();
-      this.ListView.ItemsSource = new VirtualizingCollection<Developer>(customerProvider, 10);
+      var customerProvider = new DemoWorkItemProvider();
+      this.ListView.ItemsSource = new VirtualizingCollection<WorkItem>(customerProvider, 10);
     }
   }
 }

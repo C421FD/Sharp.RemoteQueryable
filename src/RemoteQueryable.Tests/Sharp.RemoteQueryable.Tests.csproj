@@ -80,6 +80,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ClientPartialExpressionEvaluatorTests.cs" />
     <Compile Include="Infrastructure\RemoteExecutorWrapper.cs" />
     <Compile Include="LinqMethodsWithPostQuery.cs" />
     <Compile Include="Model\User.cs" />
