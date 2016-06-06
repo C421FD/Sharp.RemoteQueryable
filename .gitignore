@@ -3,6 +3,7 @@
 ################################################################################
 
 *.suo
+*.pyc
 /.vs
 /src/.vs
 /src/ChangeTracking/obj
@@ -37,3 +38,8 @@
 /src/Sharp.RemoteQueryable.Model/obj/Release
 /src/Sharp.RemoteQueryable.Model/bin/Release
 /src/TestResults
+/env/.idea
+/env/Python35-32/Lib/__pycache__
+/env/__pycache__
+/env/Python35-32/Lib/collections/__pycache__
+/env/python35-32/lib/concurrent/__pycache__
