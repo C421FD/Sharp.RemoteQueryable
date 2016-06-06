@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions; 
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Sharp.RemoteQueryable.Client
 {
@@ -17,21 +18,21 @@ namespace Sharp.RemoteQueryable.Client
       var memberExpression = expression as MemberExpression;
       if (memberExpression != null)
       {
-        if (memberExpression.Expression.Type.Name.Contains("DisplayClass"))
-        {
-          var rightValue = GetValue(memberExpression);
-          return Expression.Constant(rightValue);
-        }
+        if (memberExpression.Expression is ParameterExpression)
+          return expression;
+
+        var rightValue = GetValue(memberExpression);
+        return Expression.Constant(rightValue);
       }
 
       var methodCallExpression = expression as MethodCallExpression;
       if (methodCallExpression != null)
       {
-        var obj = ((ConstantExpression) methodCallExpression.Object).Value;
+        var obj = ((ConstantExpression)methodCallExpression.Object).Value;
         var result = methodCallExpression.Method.Invoke(obj,
-         methodCallExpression.Arguments.Select(a => GetValue(a as MemberExpression)).ToArray());
+         methodCallExpression.Arguments.Select(ResolveArgument).ToArray());
 
-         return Expression.Constant(result);
+        return Expression.Constant(result);
       }
 
       return expression;
@@ -52,22 +53,41 @@ namespace Sharp.RemoteQueryable.Client
       return b;
     }
 
+    private static object ResolveArgument(Expression exp)
+    {
+      var constantExp = exp as ConstantExpression;
+      if (constantExp != null)
+        return constantExp.Value;
+
+      var memberExp = exp as MemberExpression;
+      if (memberExp != null)
+        return GetValue(memberExp);
+
+      return null;
+    }
+
     private static object GetValue(MemberExpression exp)
     {
       var constantExpression = exp.Expression as ConstantExpression;
       if (constantExpression != null)
       {
-        return (constantExpression.Value)
-                .GetType()
-                .GetField(exp.Member.Name)
-                .GetValue(constantExpression.Value);
+        var member = constantExpression.Value
+          .GetType()
+          .GetMember(exp.Member.Name)
+          .First();
+
+        var fieldInfo = member as FieldInfo;
+        if (fieldInfo != null)
+          return fieldInfo.GetValue(constantExpression.Value);
+
+        var propertyInfo = member as PropertyInfo;
+        if (propertyInfo != null)
+          return propertyInfo.GetValue(constantExpression.Value);
       }
 
       var expression = exp.Expression as MemberExpression;
       if (expression != null)
-      {
         return GetValue(expression);
-      }
 
       return null;
     }

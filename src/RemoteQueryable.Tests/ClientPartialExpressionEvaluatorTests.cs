@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Reflection;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sharp.RemoteQueryable.Client;
 
@@ -8,50 +10,58 @@ namespace Sharp.RemoteQueryable.Tests
   [TestClass]
   public class ClientPartialExpressionEvaluatorTests
   {
-    ClientExpressionVisitor visitor = new ClientExpressionVisitor();
+    private ClientExpressionVisitor visitor = new ClientExpressionVisitor();
 
-    [TestMethod]
-    public void VariableEvaluatorTest()
-    {
-   //   Expression.MakeBinary(Expression.Constant(null), Expression.MakeMemberAccess())
-  //    this.visitor.Evaluate(Expression)
-    }
+    private Fixture fixture = new Fixture();
+
+ 
 
     [TestMethod]
     public void FieldEvaluatorTest()
     {
-      throw new NotImplementedException();
+      var fieldGetter = Expression.MakeMemberAccess(Expression.Constant(fixture), typeof(Fixture).GetField("field"));
+      var binaryExpression = Expression.MakeBinary(ExpressionType.Equal, Expression.Constant(4), fieldGetter);
+      var evaluatedExpression = (BinaryExpression)visitor.Evaluate(binaryExpression);
+      evaluatedExpression.Right.GetType().Should().Be(typeof (ConstantExpression));
+      ((ConstantExpression) evaluatedExpression.Right).Value.Should().Be(fixture.field);
     }
 
     [TestMethod]
     public void PropertyEvaluatorTest()
     {
-      throw new NotImplementedException();
+      var propertyGetter = Expression.MakeMemberAccess(Expression.Constant(fixture), typeof(Fixture).GetProperty("Property"));
+      var binaryExpression = Expression.MakeBinary(ExpressionType.Equal, Expression.Constant(string.Empty), propertyGetter);
+      var evaluatedExpression = (BinaryExpression)visitor.Evaluate(binaryExpression);
+      evaluatedExpression.Right.GetType().Should().Be(typeof(ConstantExpression));
+      ((ConstantExpression)evaluatedExpression.Right).Value.Should().Be(fixture.Property);
     }
 
     [TestMethod]
     public void MethodWithoutArgumentEvaluatorTest()
     {
-      throw new NotImplementedException();
+      var methodGetter = Expression.Call(Expression.Constant(fixture), typeof(Fixture).GetMethod("MethodWithoutArguments"));
+      var binaryExpression = Expression.MakeBinary(ExpressionType.Equal, Expression.Constant(true), methodGetter);
+      var evaluatedExpression = (BinaryExpression)visitor.Evaluate(binaryExpression);
+      evaluatedExpression.Right.GetType().Should().Be(typeof(ConstantExpression));
+      ((ConstantExpression)evaluatedExpression.Right).Value.Should().Be(fixture.MethodWithoutArguments());
     }
 
     [TestMethod]
     public void MethodWithArgumentEvaluatorTest()
     {
-      throw new NotImplementedException();
-    }
-
-    [TestMethod]
-    public void LambdaEvaluatorTest()
-    {
-      throw new NotImplementedException();
+      var methodGetter = Expression
+        .Call(Expression.Constant(fixture), typeof(Fixture).GetMethod("MethodWithArguments"), new [] {Expression.Constant(4)});
+      var binaryExpression = Expression.MakeBinary(ExpressionType.Equal, Expression.Constant(4.ToString()), methodGetter);
+      var evaluatedExpression = (BinaryExpression)visitor.Evaluate(binaryExpression);
+      evaluatedExpression.Right.GetType().Should().Be(typeof(ConstantExpression));
+      ((ConstantExpression)evaluatedExpression.Right).Value.Should().Be(fixture.MethodWithArguments(4));
     }
 
     public class Fixture
     {
       public int field = 1;
 
-      public string Property = "Property";
+      public string Property { get; set; } = "Property";
 
       public bool MethodWithoutArguments()
       {
