@@ -100,7 +100,7 @@ def execute_ms_build_command(arguments, action):
 
 
 def test(arguments):
-    build(arguments)
+    rebuild(arguments)
     config = 'debug'
     for arg in arguments:
         arg = str.lower(arg)

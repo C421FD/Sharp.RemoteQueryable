@@ -3,11 +3,14 @@
   <Description>x86 test</Description>
   <Deployment>
     <DeploymentItem filename="RemoteQueryable.Tests\hibernate.cfg.xml" />
+    <DeploymentItem filename="src\RemoteQueryable.Tests\x86\SQLite.Interop.dll" outputDirectory="x86\" />
+    <DeploymentItem filename="src\RemoteQueryable.Tests\x64\SQLite.Interop.dll" outputDirectory="x64\" />
+    <DeploymentItem filename="lib\System.Data.SQLite.dll" />
   </Deployment>
   <Execution hostProcessPlatform="MSIL">
     <TestTypeSpecific>
       <UnitTestRunConfig testTypeId="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b">
-        <AssemblyResolution applicationBaseDirectory="bin\debug\test">
+        <AssemblyResolution applicationBaseDirectory="">
           <TestDirectory useLoadContext="true" />
         </AssemblyResolution>
       </UnitTestRunConfig>
